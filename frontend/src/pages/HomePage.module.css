@@ -1,0 +1,97 @@
+/* Estilos adicionales para HomePage */
+
+.heroSection {
+  position: relative;
+  overflow: hidden;
+}
+
+.decorativeBlob {
+  animation: float 6s ease-in-out infinite;
+}
+
+.decorativeBlob:nth-child(2) {
+  animation-delay: -2s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Mejora de cards con efectos */
+.featureCard {
+  position: relative;
+  overflow: hidden;
+}
+
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.featureCard:hover::before {
+  left: 100%;
+}
+
+/* Testimonio con efecto spotlight */
+.testimonialContainer {
+  position: relative;
+}
+
+.testimonialContainer::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, #0ea5e9, #0284c7, #0369a1);
+  opacity: 0.1;
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+
+/* Gradientes de texto */
+.gradientText {
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animación de entrada suave */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slideInUp {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+/* Scroll smooth */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mejorar accesibilidad en hover */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

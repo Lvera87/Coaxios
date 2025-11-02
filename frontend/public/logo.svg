@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="72" viewBox="0 0 320 72" role="img" aria-label="Coaxios logo">
+  <defs>
+    <style type="text/css"><![CDATA[
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+      .logo { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; font-weight:800; font-size:48px; }
+      .co { fill: #0284c7; }
+      .rest { fill: #0f172a; }
+    ]]></style>
+  </defs>
+  <text x="0" y="52" class="logo">
+    <tspan class="co">Co</tspan>
+    <tspan class="rest">axios</tspan>
+  </text>
+</svg>
