@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Logo from '../Assets/Logo Coaxios.webp';
@@ -67,6 +68,7 @@ function SectionTitle({ title, subtitle, centered = true }) {
 function HomePage() {
   const containerRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -176,7 +178,7 @@ function HomePage() {
           </div>
           <div className="flex items-center gap-4">
             <button className="hidden sm:block text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-gray-50">Iniciar Sesión</button>
-            <Button className="shadow-md">Crear Cuenta Gratis</Button>
+            <Button className="shadow-md" onClick={() => navigate('/registro')}>Crear Cuenta Gratis</Button>
           </div>
         </nav>
       </header>
@@ -206,7 +208,7 @@ function HomePage() {
             Coaxios es la plataforma que te da control. Accede a las <strong className="text-gray-900 font-bold">Bibliotecas de Experiencia</strong> autorizadas de tus socios para construir la licitación a tu ritmo.
           </p>
           <div id="hero-cta" className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-            <Button className="text-lg">
+            <Button className="text-lg" onClick={() => navigate('/registro')}>
               <span className="flex items-center gap-2">
                 Reclama tu Autonomía - Empieza Gratis
                 <ArrowRight className="w-5 h-5" />
@@ -485,7 +487,7 @@ function HomePage() {
               Toma el control de tus propuestas, empodera tu rol y dale a tu equipo la estructura para ganar.
             </p>
             <div className="flex flex-col sm:flex-row gap-5 justify-center mb-10">
-              <Button className="text-lg py-4 px-12 shadow-xl">
+              <Button className="text-lg py-4 px-12 shadow-xl" onClick={() => navigate('/registro')}>
                 <span className="flex items-center gap-2">
                   Toma el Control - Empieza Gratis
                   <ArrowRight className="w-5 h-5" />
@@ -503,7 +505,7 @@ function HomePage() {
             <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-500" />
-                <span>Gratis para siempre</span>
+                <span>Accede desde cualquier lugar</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-500" />
