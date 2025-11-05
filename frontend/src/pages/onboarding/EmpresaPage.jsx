@@ -250,7 +250,7 @@ export default function EmpresaPage() {
                   </>
                 ) : (
                   <>
-                    <span>Continuar</span>
+                    <span>Continuar a Resumen</span>
                     <ArrowRight className="w-5 h-5" />
                   </>
                 )}

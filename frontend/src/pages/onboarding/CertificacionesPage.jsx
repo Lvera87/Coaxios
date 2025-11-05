@@ -31,7 +31,6 @@ const mockExperienciasConCertificaciones = [
     fecha_fin: '2022-11-15',
     codigos_unspsc: [72151000, 72141000],
     descripcion_codigos: ['Construcción de Puentes', 'Movimiento de tierras'],
-    cantidades_obra: '1500 m³ de concreto; 500 ton de acero',
     certificaciones: [], // Array vacío para agregar archivos
     estado_certificacion: 'Pendiente',
   },
@@ -45,7 +44,6 @@ const mockExperienciasConCertificaciones = [
     fecha_fin: '2023-05-20',
     codigos_unspsc: [72141000, 72142000],
     descripcion_codigos: ['Movimiento de tierras', 'Pavimentación'],
-    cantidades_obra: '850 km de pavimento asfáltico; 2000 m³ de excavación',
     certificaciones: [
       { id: 'cert_001', nombre: 'Acta_Liquidacion_2023.pdf', tamaño: '2.4 MB', fecha_subida: '2024-01-15' }
     ],
@@ -61,7 +59,6 @@ const mockExperienciasConCertificaciones = [
     fecha_fin: '2020-12-10',
     codigos_unspsc: [72144000],
     descripcion_codigos: ['Trabajos de terminación'],
-    cantidades_obra: '45,000 m² de acabados; sistemas de drenaje especializado',
     certificaciones: [],
     estado_certificacion: 'Pendiente',
   },
@@ -233,12 +230,6 @@ function FilaExperiencia({ experiencia, onAgregarCertificacion, onEliminarCertif
       {/* Contenido expandido */}
       {expandido && (
         <div className="border-t border-gray-200 bg-gray-50 p-6 animate-in slide-in-from-top-2 duration-300">
-          {/* Cantidades */}
-          <div className="mb-6">
-            <h4 className="text-sm font-bold text-gray-900 mb-2">Cantidades de Obra</h4>
-            <p className="text-sm text-gray-700 bg-white rounded-lg p-3">{experiencia.cantidades_obra}</p>
-          </div>
-
           {/* Certificaciones existentes */}
           <div className="mb-6">
             <h4 className="text-sm font-bold text-gray-900 mb-3">Certificaciones Vinculadas</h4>

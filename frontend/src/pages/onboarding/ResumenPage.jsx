@@ -1,15 +1,22 @@
-import { useState } from 'react';
-import { ArrowRight, Edit2, CheckCircle, FileText, Building2, TrendingUp, Sparkles, X } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { ArrowRight, Edit2, CheckCircle, FileText, Building2, TrendingUp, Sparkles, X, ChevronDown, Search } from 'lucide-react';
 import ProgressBar from '../../components/onboarding/ProgressBar';
+import {
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
+  flexRender,
+} from '@tanstack/react-table';
 
-const formatCurrency = (value) => {
-  if (!value) return '$ 0';
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(value);
+// Formateo para valores en SMMLV (mostramos unidad: SMMLV)
+const formatSMMLV = (value) => {
+  if (value === undefined || value === null) return '-';
+  try {
+    return new Intl.NumberFormat('es-CO').format(value) + ' SMMLV';
+  } catch (e) {
+    return String(value) + ' SMMLV';
+  }
 };
 
 const formatDate = (dateStr) => {
@@ -27,69 +34,113 @@ const formatPercentage = (value) => {
 const mockPerfilCentral = {
   razon_social: 'Nexus Ingeniería S.A.S.',
   nit: '9001234567',
+  tipo_sociedad: 'Sociedad por Acciones Simplificada',
+  duracion_sociedad: 'Indefinida',
   domicilio_principal: 'Medellín, Antioquia',
   representante_legal: 'David Alejandro Correa Pérez',
+  rep_legal_suplente: 'Carolina Vélez Gómez',
   cedula_rep_legal: '1.123.456.789',
   facultades_rep_legal: 'Hasta 5.000 SMMLV',
-  fecha_renov_cc: '2024-03-28',
-  fecha_expedicion_cc: '2024-07-15',
-  fecha_renov_rup: '2024-04-05',
+  fecha_renov_cc: '2024-03-27',
+  fecha_expedicion_cc_actual: '2024-07-14',
+  fecha_renov_rup: '2024-04-04',
   indice_liquidez: 1.85,
   indice_endeudamiento: 0.45,
-  capital_trabajo: 1250000000,
-  rentabilidad_patrimonio: 0.18,
-  rentabilidad_activo: 0.11,
+  capital_trabajo_smmlv: 1250, // en SMMLV
+  rentabilidad_patrimonio_roe: 0.18,
+  rentabilidad_activo_roa: 0.11,
   ano_fiscal_reportado: 2023,
+  tamano_empresa: 'Mediana Empresa',
 };
 
 // Mock data: Biblioteca de Experiencias
+// Tabla 2: Registro General de Contratos (valores en SMMLV)
 const mockExperiencias = [
   {
-    id_experiencia: 'exp_001',
-    nombre_proyecto: 'Construcción Puente "La Esmeralda"',
-    entidad_contratante: 'Instituto Nacional de Vías - INVÍAS',
-    valor_final_cop: 3500000000,
-    ano_ejecucion_fin: 2022,
+    id_rup: '001',
+    contratante: 'Instituto Nacional de Vías - INVÍAS',
+    celebrado_por: 'Consorcio Vial 2021',
+    nombre_contratista: 'Consorcio Vial 2021',
+    participacion_porcentaje: 40, // porcentaje atribuido a la empresa en el consorcio
+    valor_smmlv: 3500, // equivalente aproximado
+    ano_fin: 2022,
     fecha_inicio: '2021-03-01',
     fecha_fin: '2022-11-15',
-    codigos_unspsc: [72151000, 72141000],
-    descripcion_codigos: ['Construcción de Puentes', 'Movimiento de tierras'],
-    cantidades_obra: '1500 m³ de concreto; 500 ton de acero',
-    soporte_pdf_id: null,
+    // capacidades (UNSPSC) asociadas a este contrato
+    capacidades: [
+      {
+        id_capacidad: 'cap_01',
+        codigo_unspsc: 72151000,
+        nombre_actividad: 'Construcción de Puentes',
+        // códigos segmentados (SEG|FAMI|CLAS|PROD) — se muestran en el desplegable
+        codigos_detalle: [
+          '11|10|15|00', '11|10|16|00', '11|10|17|00', '11|10|18|00', '11|10|19|00'
+        ],
+        id_documento_soporte: 'soporte_exp_001.pdf',
+        estado_detalle: 'Completo y Verificado',
+      },
+    ],
+    id_documento_soporte: null,
     estado_verificacion: 'Auto-generado',
   },
   {
-    id_experiencia: 'exp_002',
-    nombre_proyecto: 'Ampliación Carretera Medellín - Bogotá',
-    entidad_contratante: 'INVÍAS - Contratación Central',
-    valor_final_cop: 2800000000,
-    ano_ejecucion_fin: 2023,
+    id_rup: '002',
+    contratante: 'INVÍAS - Contratación Central',
+    celebrado_por: 'Empresa Vial S.A.',
+    nombre_contratista: 'Empresa Vial S.A.',
+    participacion_porcentaje: 100,
+    valor_smmlv: 2800,
+    ano_fin: 2023,
     fecha_inicio: '2021-08-10',
     fecha_fin: '2023-05-20',
-    codigos_unspsc: [72141000, 72142000],
-    descripcion_codigos: ['Movimiento de tierras', 'Pavimentación'],
-    cantidades_obra: '850 km de pavimento asfáltico; 2000 m³ de excavación',
-    soporte_pdf_id: 'doc_001.pdf',
+    capacidades: [
+      {
+        id_capacidad: 'cap_02',
+        codigo_unspsc: 72141000,
+        nombre_actividad: 'Movimiento de tierras',
+        codigos_detalle: [
+          '11|11|15|00', '11|11|16|00', '11|11|17|00', '11|11|18|00'
+        ],
+        id_documento_soporte: 'soporte_exp_002.pdf',
+        estado_detalle: 'Completo y Verificado',
+      },
+    ],
+    id_documento_soporte: 'doc_001.pdf',
     estado_verificacion: 'Verificado',
   },
   {
-    id_experiencia: 'exp_003',
-    nombre_proyecto: 'Adecuación Pista Aeropuerto Internacional',
-    entidad_contratante: 'Aeropuertos del Caribe - AACID',
-    valor_final_cop: 1200000000,
-    ano_ejecucion_fin: 2020,
+    id_rup: '003',
+    contratante: 'Aeropuertos del Caribe - AACID',
+    celebrado_por: 'Nexus Ingeniería S.A.S.',
+    nombre_contratista: 'Nexus Ingeniería S.A.S.',
+    participacion_porcentaje: 100,
+    valor_smmlv: 1200,
+    ano_fin: 2020,
     fecha_inicio: '2019-06-15',
     fecha_fin: '2020-12-10',
-    codigos_unspsc: [72144000],
-    descripcion_codigos: ['Trabajos de terminación'],
-    cantidades_obra: '45,000 m² de acabados; sistemas de drenaje especializado',
-    soporte_pdf_id: null,
+    capacidades: [
+      {
+        id_capacidad: 'cap_03',
+        codigo_unspsc: 72144000,
+        nombre_actividad: 'Trabajos de terminación',
+        codigos_detalle: [
+          '11|12|15|00', '11|12|16|00', '11|12|17|00'
+        ],
+        id_documento_soporte: null,
+        estado_detalle: 'Pendiente',
+      },
+    ],
+    id_documento_soporte: null,
     estado_verificacion: 'Auto-generado',
   },
 ];
 
-// Componente Tabla 1: Perfil Central
+// Nota: las capacidades (UNSPSC) se han movido dentro de cada experiencia en `mockExperiencias`.
+
+// Componente Tabla 1: Perfil Central (mejorado)
 function TablaPerfil({ data, onEdit }) {
+  const [activeTab, setActiveTab] = useState('juridica');
+
   return (
     <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
       {/* Header */}
@@ -103,88 +154,217 @@ function TablaPerfil({ data, onEdit }) {
         <p className="text-blue-100 text-sm">Información jurídica y financiera consolidada</p>
       </div>
 
+      {/* Tabs */}
+      <div className="border-b border-gray-200 bg-gray-50">
+        <div className="flex px-8">
+          <button
+            onClick={() => setActiveTab('juridica')}
+            className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${
+              activeTab === 'juridica'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Información Jurídica
+          </button>
+          <button
+            onClick={() => setActiveTab('financiera')}
+            className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${
+              activeTab === 'financiera'
+                ? 'border-purple-600 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Capacidad Financiera
+          </button>
+          <button
+            onClick={() => setActiveTab('documentos')}
+            className={`px-6 py-3 text-sm font-semibold border-b-2 transition-all ${
+              activeTab === 'documentos'
+                ? 'border-green-600 text-green-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            }`}
+          >
+            Documentos
+          </button>
+        </div>
+      </div>
+
       {/* Contenido */}
       <div className="p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Sección Información Jurídica */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-blue-200">
-              Información Jurídica
-            </h3>
+        {/* Información Jurídica */}
+        {activeTab === 'juridica' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
             {[
               { label: 'Razón Social', key: 'razon_social', value: data.razon_social },
               { label: 'NIT', key: 'nit', value: data.nit },
+              { label: 'Tipo Sociedad', key: 'tipo_sociedad', value: data.tipo_sociedad },
+              { label: 'Duración Sociedad', key: 'duracion_sociedad', value: data.duracion_sociedad },
               { label: 'Domicilio Principal', key: 'domicilio_principal', value: data.domicilio_principal },
               { label: 'Representante Legal', key: 'representante_legal', value: data.representante_legal },
+              { label: 'Representante Legal Suplente', key: 'rep_legal_suplente', value: data.rep_legal_suplente },
               { label: 'Cédula Rep. Legal', key: 'cedula_rep_legal', value: data.cedula_rep_legal },
               { label: 'Facultades Rep. Legal', key: 'facultades_rep_legal', value: data.facultades_rep_legal },
             ].map(({ label, key, value }) => (
-              <div key={key} className="flex justify-between items-start gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">{label}</p>
-                  <p className="text-base font-semibold text-gray-900 mt-1">{value || '-'}</p>
+              <div key={key} className="group bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl border border-blue-100 hover:shadow-md transition-all">
+                <div className="flex justify-between items-start gap-4">
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-600 font-medium mb-1">{label}</p>
+                    <p className="text-base font-semibold text-gray-900">{value || '-'}</p>
+                  </div>
+                  <button
+                    onClick={() => onEdit('juridica', key)}
+                    className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
                 </div>
-                <button
-                  onClick={() => onEdit('juridica', key)}
-                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                >
-                  <Edit2 className="w-4 h-4" />
-                </button>
               </div>
             ))}
           </div>
+        )}
 
-          {/* Sección Capacidad Financiera */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-purple-200">
-              Capacidad Financiera (Año Fiscal {data.ano_fiscal_reportado})
-            </h3>
-            {[
-              { label: 'Índice de Liquidez', key: 'indice_liquidez', value: data.indice_liquidez, format: (v) => v.toFixed(2) },
-              { label: 'Índice de Endeudamiento', key: 'indice_endeudamiento', value: data.indice_endeudamiento, format: formatPercentage },
-              { label: 'Capital de Trabajo', key: 'capital_trabajo', value: data.capital_trabajo, format: formatCurrency },
-              { label: 'Rentabilidad Patrimonio (ROE)', key: 'rentabilidad_patrimonio', value: data.rentabilidad_patrimonio, format: formatPercentage },
-              { label: 'Rentabilidad Activo (ROA)', key: 'rentabilidad_activo', value: data.rentabilidad_activo, format: formatPercentage },
-            ].map(({ label, key, value, format }) => (
-              <div key={key} className="flex justify-between items-start gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p className="text-sm text-gray-500 font-medium">{label}</p>
-                  <p className="text-base font-semibold text-gray-900 mt-1">{format ? format(value) : value || '-'}</p>
+        {/* Capacidad Financiera */}
+        {activeTab === 'financiera' && (
+          <div className="space-y-4 animate-in fade-in duration-300">
+            <div className="bg-gradient-to-r from-purple-50 to-white p-4 rounded-xl border border-purple-100 mb-4">
+              <p className="text-sm text-purple-600 font-semibold">Año Fiscal: {data.ano_fiscal_reportado}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { label: 'Tamaño Empresa', key: 'tamano_empresa', value: data.tamano_empresa },
+                { label: 'Índice de Liquidez', key: 'indice_liquidez', value: data.indice_liquidez, format: (v) => v.toFixed(2) },
+                { label: 'Índice de Endeudamiento', key: 'indice_endeudamiento', value: data.indice_endeudamiento, format: formatPercentage },
+                { label: 'Capital de Trabajo (SMMLV)', key: 'capital_trabajo_smmlv', value: data.capital_trabajo_smmlv, format: formatSMMLV },
+                { label: 'Rentabilidad Patrimonio (ROE)', key: 'rentabilidad_patrimonio_roe', value: data.rentabilidad_patrimonio_roe, format: formatPercentage },
+                { label: 'Rentabilidad Activo (ROA)', key: 'rentabilidad_activo_roa', value: data.rentabilidad_activo_roa, format: formatPercentage },
+              ].map(({ label, key, value, format }) => (
+                <div key={key} className="group bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl border border-purple-100 hover:shadow-md transition-all">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-600 font-medium mb-1">{label}</p>
+                      <p className="text-base font-semibold text-gray-900">{format ? format(value) : value || '-'}</p>
+                    </div>
+                    <button
+                      onClick={() => onEdit('financiera', key)}
+                      className="p-2 text-purple-600 hover:bg-purple-100 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <button
-                  onClick={() => onEdit('financiera', key)}
-                  className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg transition-all"
-                >
-                  <Edit2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Fechas de Documentos */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">Documentos de Referencia</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Documentos de Referencia */}
+        {activeTab === 'documentos' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-300">
             {[
-              { label: 'Última renovación C. de C.', date: data.fecha_renov_cc },
-              { label: 'Expedición C. de C.', date: data.fecha_expedicion_cc },
-              { label: 'Última renovación RUP', date: data.fecha_renov_rup },
-            ].map(({ label, date }) => (
-              <div key={label} className="bg-gray-50 rounded-xl p-4">
-                <p className="text-sm text-gray-600 font-medium">{label}</p>
-                <p className="text-base font-bold text-gray-900 mt-2">{formatDate(date)}</p>
+              { label: 'Última renovación C. de C.', date: data.fecha_renov_cc, icon: '📄' },
+              { label: 'Expedición C. de C. (último certificado)', date: data.fecha_expedicion_cc_actual, icon: '📋' },
+              { label: 'Última renovación RUP', date: data.fecha_renov_rup, icon: '📑' },
+            ].map(({ label, date, icon }) => (
+              <div key={label} className="bg-gradient-to-br from-green-50 to-white p-6 rounded-xl border border-green-100 hover:shadow-md transition-all">
+                <div className="text-3xl mb-3">{icon}</div>
+                <p className="text-sm text-gray-600 font-medium mb-2">{label}</p>
+                <p className="text-lg font-bold text-gray-900">{formatDate(date)}</p>
               </div>
             ))}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
 }
 
-// Componente Tabla 2: Biblioteca de Experiencias
+// Nota: la tabla de capacidades fue removida. Las capacidades (UNSPSC) ahora se muestran dentro de la Tabla de Experiencias.
+
+// Componente Tabla 2: Biblioteca de Experiencias (con TanStack Table)
 function TablaExperiencias({ experiencias, onEdit }) {
+  const [expandedIds, setExpandedIds] = useState({});
+
+  const toggleExpanded = (id) => {
+    setExpandedIds(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: 'id_rup',
+        header: 'Contrato (RUP)',
+        cell: info => <p className="font-semibold text-gray-900 text-sm">{info.getValue()}</p>,
+      },
+      {
+        accessorKey: 'contratante',
+        header: 'Entidad',
+        cell: info => <span className="text-sm text-gray-700">{info.getValue()}</span>,
+      },
+      {
+        accessorKey: 'nombre_contratista',
+        header: 'Contratista',
+        cell: info => <span className="text-sm text-gray-700">{info.getValue() || '-'}</span>,
+      },
+      {
+        accessorKey: 'participacion_porcentaje',
+        header: 'Participación',
+        cell: info => <span className="text-sm text-gray-700">{info.getValue() ? `${info.getValue()}%` : '-'}</span>,
+      },
+      {
+        accessorKey: 'valor_smmlv',
+        header: 'Valor (SMMLV)',
+        cell: info => <p className="font-bold text-gray-900">{formatSMMLV(info.getValue())}</p>,
+      },
+      {
+        id: 'periodo',
+        header: 'Período',
+        accessorFn: row => `${row.fecha_inicio} - ${row.fecha_fin}`,
+        cell: info => (
+          <span className="text-sm text-gray-700">
+            {formatDate(info.row.original.fecha_inicio)} a {formatDate(info.row.original.fecha_fin)}
+          </span>
+        ),
+      },
+      {
+        id: 'acciones',
+        header: 'Acciones',
+        cell: info => (
+          <div className="flex items-center justify-center space-x-2">
+            <button
+              onClick={() => toggleExpanded(info.row.original.id_rup)}
+              className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition flex items-center justify-center"
+              title={expandedIds[info.row.original.id_rup] ? 'Ocultar códigos UNSPSC' : 'Ver códigos UNSPSC'}
+            >
+              <ChevronDown className={`w-4 h-4 transform transition-transform ${expandedIds[info.row.original.id_rup] ? 'rotate-180' : ''}`} />
+            </button>
+            <button
+              onClick={() => onEdit('experiencia', info.row.original.id_rup)}
+              className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all inline-flex"
+              title="Editar experiencia"
+            >
+              <Edit2 className="w-4 h-4" />
+            </button>
+          </div>
+        ),
+      },
+    ],
+    [expandedIds, onEdit]
+  );
+
+  const table = useReactTable({
+    data: experiencias,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
+  });
+
   return (
     <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
       {/* Header */}
@@ -202,64 +382,123 @@ function TablaExperiencias({ experiencias, onEdit }) {
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wide">Proyecto</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wide">Entidad</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wide">UNSPSC</th>
-              <th className="px-6 py-4 text-right text-xs font-bold text-gray-700 uppercase tracking-wide">Valor</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wide">Período</th>
-              <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wide">Estado</th>
-              <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wide">Acciones</th>
-            </tr>
+            {table.getHeaderGroups().map(headerGroup => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => (
+                  <th
+                    key={header.id}
+                    className={`px-6 py-4 text-xs font-bold text-gray-700 uppercase tracking-wide ${
+                      header.column.id === 'valor_smmlv' || header.column.id === 'acciones' ? 'text-center' : 'text-left'
+                    } ${header.column.getCanSort() ? 'cursor-pointer select-none hover:bg-gray-100' : ''}`}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    <div className="flex items-center gap-2">
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {{
+                        asc: ' 🔼',
+                        desc: ' 🔽',
+                      }[header.column.getIsSorted()] ?? null}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {experiencias.map((exp) => (
-              <tr key={exp.id_experiencia} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4">
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">{exp.nombre_proyecto}</p>
-                    <p className="text-xs text-gray-500">{exp.id_experiencia}</p>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">{exp.entidad_contratante}</td>
-                <td className="px-6 py-4">
-                  <div className="flex flex-wrap gap-2">
-                    {exp.codigos_unspsc.map((cod) => (
-                      <span key={cod} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {cod}
-                      </span>
-                    ))}
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <p className="font-bold text-gray-900">{formatCurrency(exp.valor_final_cop)}</p>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-700">
-                  {formatDate(exp.fecha_inicio)} a {formatDate(exp.fecha_fin)}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
-                    exp.estado_verificacion === 'Verificado'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {exp.estado_verificacion === 'Verificado' && <CheckCircle className="w-3 h-3" />}
-                    {exp.estado_verificacion}
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <button
-                    onClick={() => onEdit('experiencia', exp.id_experiencia)}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all inline-flex"
-                    title="Editar experiencia"
-                  >
-                    <Edit2 className="w-4 h-4" />
-                  </button>
-                </td>
-              </tr>
+            {table.getRowModel().rows.map(row => (
+              <>
+                <tr key={row.id} className="hover:bg-gray-50 transition-colors">
+                  {row.getVisibleCells().map(cell => (
+                    <td
+                      key={cell.id}
+                      className={`px-6 py-4 ${
+                        cell.column.id === 'valor_smmlv' ? 'text-right' : cell.column.id === 'acciones' ? 'text-center' : ''
+                      }`}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </td>
+                  ))}
+                </tr>
+
+                {/* Fila expandida con capacidades */}
+                {row.original.capacidades && row.original.capacidades.length > 0 && expandedIds[row.original.id_rup] && (
+                  <tr key={`caps-${row.original.id_rup}`} className="bg-gray-50">
+                    <td colSpan={7} className="px-6 py-4">
+                      <div className="space-y-3">
+                        {row.original.capacidades.map((cap) => (
+                          <div key={cap.id_capacidad} className="bg-white p-3 rounded-lg shadow-sm">
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex-1">
+                                <p className="text-sm font-semibold">{cap.nombre_actividad}</p>
+                                <p className="text-xs text-gray-500 mb-2">Soporte: {cap.id_documento_soporte || '—'}</p>
+
+                                {/* Grid de códigos segmentados */}
+                                {cap.codigos_detalle && cap.codigos_detalle.length > 0 && (
+                                  <div className="grid grid-cols-3 gap-2">
+                                    {cap.codigos_detalle.map((cd, idx) => (
+                                      <div key={idx} className="px-2 py-1 border rounded-lg bg-gray-50 text-sm text-gray-700 text-center">
+                                        {cd}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-xs font-medium text-gray-700">{cap.estado_detalle}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </>
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Paginación */}
+      <div className="px-8 py-4 border-t border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-between">
+          <div className="text-sm text-gray-600">
+            Mostrando {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} a{' '}
+            {Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, experiencias.length)} de{' '}
+            {experiencias.length} registros
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+              className="px-3 py-2 rounded-lg bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {'<<'}
+            </button>
+            <button
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+              className="px-3 py-2 rounded-lg bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {'<'}
+            </button>
+            <span className="px-3 py-2 text-sm text-gray-700">
+              Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+            </span>
+            <button
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+              className="px-3 py-2 rounded-lg bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {'>'}
+            </button>
+            <button
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+              className="px-3 py-2 rounded-lg bg-white border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {'>>'}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -268,6 +507,10 @@ function TablaExperiencias({ experiencias, onEdit }) {
 // Modal de edición genérico
 function ModalEdicion({ isOpen, title, fields, onSave, onClose }) {
   const [formData, setFormData] = useState(fields);
+
+  useEffect(() => {
+    setFormData(fields || {});
+  }, [fields]);
 
   if (!isOpen) return null;
 
@@ -343,15 +586,20 @@ export default function ResumenPage() {
         ? {
             razon_social: perfilData.razon_social,
             nit: perfilData.nit,
+            tipo_sociedad: perfilData.tipo_sociedad,
+            duracion_sociedad: perfilData.duracion_sociedad,
             domicilio_principal: perfilData.domicilio_principal,
             representante_legal: perfilData.representante_legal,
+            rep_legal_suplente: perfilData.rep_legal_suplente,
           }
         : {
+            ano_fiscal_reportado: perfilData.ano_fiscal_reportado,
+            tamano_empresa: perfilData.tamano_empresa,
             indice_liquidez: perfilData.indice_liquidez,
             indice_endeudamiento: perfilData.indice_endeudamiento,
-            capital_trabajo: perfilData.capital_trabajo,
-            rentabilidad_patrimonio: perfilData.rentabilidad_patrimonio,
-            rentabilidad_activo: perfilData.rentabilidad_activo,
+            capital_trabajo_smmlv: perfilData.capital_trabajo_smmlv,
+            rentabilidad_patrimonio_roe: perfilData.rentabilidad_patrimonio_roe,
+            rentabilidad_activo_roa: perfilData.rentabilidad_activo_roa,
           };
 
       setEditModal({
@@ -361,13 +609,13 @@ export default function ResumenPage() {
         title: section === 'juridica' ? 'Editar Información Jurídica' : 'Editar Capacidad Financiera',
       });
     } else if (section === 'experiencia') {
-      const exp = experienciasData.find(e => e.id_experiencia === key);
+      const exp = experienciasData.find(e => e.id_rup === key);
       if (exp) {
         setEditModal({
           isOpen: true,
           section,
           data: { ...exp },
-          title: `Editar Experiencia: ${exp.nombre_proyecto}`,
+          title: `Editar Experiencia: ${exp.id_rup}`,
         });
       }
     }
@@ -378,7 +626,7 @@ export default function ResumenPage() {
       setPerfilData(prev => ({ ...prev, ...updatedData }));
     } else if (editModal.section === 'experiencia') {
       setExperienciasData(prev =>
-        prev.map(exp => (exp.id_experiencia === updatedData.id_experiencia ? updatedData : exp))
+        prev.map(exp => (exp.id_rup === updatedData.id_rup ? updatedData : exp))
       );
     }
   };
