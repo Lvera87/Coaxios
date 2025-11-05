@@ -56,83 +56,252 @@ const mockPerfilCentral = {
 // Mock data: Biblioteca de Experiencias
 // Tabla 2: Registro General de Contratos (valores en SMMLV)
 const mockExperiencias = [
+  // Generado: 50 proyectos de muestra, variados por tipo y sector.
+  // Cada objeto sigue la estructura esperada por la UI y los helpers.
   {
-    id_rup: '001',
-    contratante: 'Instituto Nacional de Vías - INVÍAS',
-    celebrado_por: 'Consorcio Vial 2021',
-    nombre_contratista: 'Consorcio Vial 2021',
-    participacion_porcentaje: 40, // porcentaje atribuido a la empresa en el consorcio
-    valor_smmlv: 3500, // equivalente aproximado
-    ano_fin: 2022,
-    fecha_inicio: '2021-03-01',
-    fecha_fin: '2022-11-15',
-    // capacidades (UNSPSC) asociadas a este contrato
+    id_rup: 'RUP-001',
+    contratante: 'Ministerio de Transporte',
+    celebrado_por: 'Consorcio Vial Andino',
+    nombre_contratista: 'Consorcio Vial Andino',
+    participacion_porcentaje: 60,
+    tipo_proyecto: 'Infraestructura',
+    objetivo: 'Rehabilitación y reforzamiento de la calzada principal en la vía troncal del departamento, mejorando la capacidad estructural y la seguridad vial.',
+    valor_smmlv: 4200,
+    ano_fin: 2024,
+    fecha_inicio: '2021-02-15',
+    fecha_fin: '2024-01-30',
     capacidades: [
       {
-        id_capacidad: 'cap_01',
+        id_capacidad: 'cap_RUP001_01',
         codigo_unspsc: 72151000,
-        nombre_actividad: 'Construcción de Puentes',
-        // códigos segmentados (SEG|FAMI|CLAS|PROD) — se muestran en el desplegable
-        codigos_detalle: [
-          '11|10|15|00', '11|10|16|00', '11|10|17|00', '11|10|18|00', '11|10|19|00'
-        ],
-        id_documento_soporte: 'soporte_exp_001.pdf',
+        nombre_actividad: 'Construcción y mantenimiento de vías',
+        codigos_detalle: ['11|10|15|00','11|10|16|00','11|10|20|00'],
+        id_documento_soporte: 'RUP-001_soporte_vial.pdf',
         estado_detalle: 'Completo y Verificado',
-      },
+      }
     ],
-    id_documento_soporte: null,
-    estado_verificacion: 'Auto-generado',
-  },
-  {
-    id_rup: '002',
-    contratante: 'INVÍAS - Contratación Central',
-    celebrado_por: 'Empresa Vial S.A.',
-    nombre_contratista: 'Empresa Vial S.A.',
-    participacion_porcentaje: 100,
-    valor_smmlv: 2800,
-    ano_fin: 2023,
-    fecha_inicio: '2021-08-10',
-    fecha_fin: '2023-05-20',
-    capacidades: [
-      {
-        id_capacidad: 'cap_02',
-        codigo_unspsc: 72141000,
-        nombre_actividad: 'Movimiento de tierras',
-        codigos_detalle: [
-          '11|11|15|00', '11|11|16|00', '11|11|17|00', '11|11|18|00'
-        ],
-        id_documento_soporte: 'soporte_exp_002.pdf',
-        estado_detalle: 'Completo y Verificado',
-      },
-    ],
-    id_documento_soporte: 'doc_001.pdf',
+    id_documento_soporte: 'RUP-001_contrato.pdf',
     estado_verificacion: 'Verificado',
   },
   {
-    id_rup: '003',
-    contratante: 'Aeropuertos del Caribe - AACID',
+    id_rup: 'RUP-002',
+    contratante: 'Alcaldía Mayor de Bogotá - Secretaría de Educación',
     celebrado_por: 'Nexus Ingeniería S.A.S.',
     nombre_contratista: 'Nexus Ingeniería S.A.S.',
     participacion_porcentaje: 100,
-    valor_smmlv: 1200,
-    ano_fin: 2020,
-    fecha_inicio: '2019-06-15',
-    fecha_fin: '2020-12-10',
+    tipo_proyecto: 'Construcción (Educación)',
+    objetivo: 'Construcción de obras complementarias y adecuaciones en establecimientos educativos para garantizar accesibilidad y capacidad de servicio.',
+    valor_smmlv: 950,
+    ano_fin: 2021,
+    fecha_inicio: '2019-04-01',
+    fecha_fin: '2021-09-30',
     capacidades: [
       {
-        id_capacidad: 'cap_03',
+        id_capacidad: 'cap_RUP002_01',
         codigo_unspsc: 72144000,
-        nombre_actividad: 'Trabajos de terminación',
-        codigos_detalle: [
-          '11|12|15|00', '11|12|16|00', '11|12|17|00'
-        ],
+        nombre_actividad: 'Trabajos de terminación y acabados',
+        codigos_detalle: ['11|12|15|00','11|12|16|00'],
+        id_documento_soporte: 'RUP-002_soporte_terminacion.pdf',
+        estado_detalle: 'Completo y Verificado',
+      }
+    ],
+    id_documento_soporte: 'RUP-002_contrato.pdf',
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-003',
+    contratante: 'Empresas Públicas de Medellín - EPM',
+    celebrado_por: 'Constructora Andina S.A.S.',
+    nombre_contratista: 'Constructora Andina S.A.S.',
+    participacion_porcentaje: 50,
+    tipo_proyecto: 'Infraestructura',
+    objetivo: 'Rehabilitación de redes hidráulicas y reposición de pavimentos en zona urbana con metodología de mínima perturbación.',
+    valor_smmlv: 1800,
+    ano_fin: 2022,
+    fecha_inicio: '2020-03-10',
+    fecha_fin: '2022-07-22',
+    capacidades: [
+      {
+        id_capacidad: 'cap_RUP003_01',
+        codigo_unspsc: 30191800,
+        nombre_actividad: 'Servicios de rehabilitación de redes',
+        codigos_detalle: ['21|05|10|00'],
         id_documento_soporte: null,
         estado_detalle: 'Pendiente',
-      },
+      }
     ],
     id_documento_soporte: null,
     estado_verificacion: 'Auto-generado',
   },
+  // A continuación se generan proyectos de muestra (RUP-004 a RUP-050)
+  {
+    id_rup: 'RUP-004',
+    contratante: 'Aeropuertos de Antioquia',
+    celebrado_por: 'Nexus Ingeniería S.A.S.',
+    nombre_contratista: 'Nexus Ingeniería S.A.S.',
+    participacion_porcentaje: 100,
+    tipo_proyecto: 'Mantenimiento aeroportuario',
+    objetivo: 'Mantenimiento mayor de pistas y sistemas asociados para garantizar operación segura durante temporada alta.',
+    valor_smmlv: 1250,
+    ano_fin: 2020,
+    fecha_inicio: '2019-01-15',
+    fecha_fin: '2020-11-30',
+    capacidades: [
+      { id_capacidad: 'cap_RUP004_01', codigo_unspsc: 72154000, nombre_actividad: 'Mantenimiento de pistas', codigos_detalle: ['11|15|10|00'], id_documento_soporte: 'RUP-004_soporte.pdf', estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: 'RUP-004_contrato.pdf',
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-005',
+    contratante: 'Ministerio de Tecnologías - MINTIC',
+    celebrado_por: 'SoftSolutions S.A.S.',
+    nombre_contratista: 'SoftSolutions S.A.S.',
+    participacion_porcentaje: 100,
+    tipo_proyecto: 'Software',
+    objetivo: 'Desarrollo e implementación de plataforma web de gestión documental y expedientes digitales para procesos de contratación pública.',
+    valor_smmlv: 450,
+    ano_fin: 2023,
+    fecha_inicio: '2022-01-10',
+    fecha_fin: '2023-12-20',
+    capacidades: [
+      { id_capacidad: 'cap_RUP005_01', codigo_unspsc: 43231500, nombre_actividad: 'Desarrollo de software a medida', codigos_detalle: ['43|23|15|00'], id_documento_soporte: 'RUP-005_soporte_sw.pdf', estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: 'RUP-005_contrato.pdf',
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-006',
+    contratante: 'Hospital Universitario San José',
+    celebrado_por: 'Servicios Médicos Integrales S.A.S.',
+    nombre_contratista: 'Servicios Médicos Integrales S.A.S.',
+    participacion_porcentaje: 100,
+    tipo_proyecto: 'Consultoría',
+    objetivo: 'Asesoría técnica para optimización de procesos clínicos y control de infecciones intrahospitalarias.',
+    valor_smmlv: 220,
+    ano_fin: 2019,
+    fecha_inicio: '2018-05-01',
+    fecha_fin: '2019-10-30',
+    capacidades: [
+      { id_capacidad: 'cap_RUP006_01', codigo_unspsc: 86101600, nombre_actividad: 'Asesoría en gestión asistencial', codigos_detalle: ['86|10|16|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: null,
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-007',
+    contratante: 'Universidad Nacional de Colombia',
+    celebrado_por: 'Consorcio Campus Moderno',
+    nombre_contratista: 'Consorcio Campus Moderno',
+    participacion_porcentaje: 40,
+    tipo_proyecto: 'Infraestructura Universitaria',
+    objetivo: 'Construcción de edificio de laboratorios y aulas especializadas con alta demanda de infraestructura técnica.',
+    valor_smmlv: 3000,
+    ano_fin: 2022,
+    fecha_inicio: '2019-09-01',
+    fecha_fin: '2022-06-15',
+    capacidades: [
+      { id_capacidad: 'cap_RUP007_01', codigo_unspsc: 72151000, nombre_actividad: 'Construcción de estructuras', codigos_detalle: ['11|10|15|00'], id_documento_soporte: 'RUP-007_labores.pdf', estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: 'RUP-007_contrato.pdf',
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-008',
+    contratante: 'Gobernación de Antioquia',
+    celebrado_por: 'Consorcio Gestión Hídrica',
+    nombre_contratista: 'Consorcio Gestión Hídrica',
+    participacion_porcentaje: 70,
+    tipo_proyecto: 'Hidrosanitario',
+    objetivo: 'Instalación y mejora de acueductos veredales para garantizar potabilidad y continuidad del servicio.',
+    valor_smmlv: 780,
+    ano_fin: 2020,
+    fecha_inicio: '2018-11-12',
+    fecha_fin: '2020-05-30',
+    capacidades: [
+      { id_capacidad: 'cap_RUP008_01', codigo_unspsc: 30191800, nombre_actividad: 'Instalación de redes hidráulicas', codigos_detalle: ['21|05|10|00'], id_documento_soporte: 'RUP-008_soporte.pdf', estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: 'RUP-008_contrato.pdf',
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-009',
+    contratante: 'Alcaldía Municipal de Pasto',
+    celebrado_por: 'Construcciones del Sur S.A.S.',
+    nombre_contratista: 'Construcciones del Sur S.A.S.',
+    participacion_porcentaje: 100,
+    tipo_proyecto: 'Mantenimiento Urbano',
+    objetivo: 'Intervenciones en plazas y corredores peatonales con mobiliario urbano y pavimentos permeables.',
+    valor_smmlv: 320,
+    ano_fin: 2017,
+    fecha_inicio: '2016-02-01',
+    fecha_fin: '2017-12-20',
+    capacidades: [
+      { id_capacidad: 'cap_RUP009_01', codigo_unspsc: 72151500, nombre_actividad: 'Pavimentación y obras públicas', codigos_detalle: ['11|15|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: null,
+    estado_verificacion: 'Verificado',
+  },
+  {
+    id_rup: 'RUP-010',
+    contratante: 'Ministerio de Salud',
+    celebrado_por: 'BioServicios S.A.S.',
+    nombre_contratista: 'BioServicios S.A.S.',
+    participacion_porcentaje: 100,
+    tipo_proyecto: 'Suministro y Capacitación',
+    objetivo: 'Suministro de equipos biomédicos y capacitación técnica al personal hospitalario para su correcta operación y mantenimiento.',
+    valor_smmlv: 210,
+    ano_fin: 2018,
+    fecha_inicio: '2017-03-15',
+    fecha_fin: '2018-11-30',
+    capacidades: [
+      { id_capacidad: 'cap_RUP010_01', codigo_unspsc: 42171600, nombre_actividad: 'Suministro de equipos médicos', codigos_detalle: ['42|17|16|00'], id_documento_soporte: 'RUP-010_soporte.pdf', estado_detalle: 'Completo y Verificado' }
+    ],
+    id_documento_soporte: 'RUP-010_contrato.pdf',
+    estado_verificacion: 'Verificado',
+  },
+  // Resto de proyectos (11-50): variedad en tipo, cliente y alcance
+  {
+    id_rup: 'RUP-011', contratante: 'Alcaldía de Cali', celebrado_por: 'Consorcio Movilidad Cali', nombre_contratista: 'Consorcio Movilidad Cali', participacion_porcentaje: 60, tipo_proyecto: 'Movilidad', objetivo: 'Mejoramiento de corredores viales y señalización urbana.', valor_smmlv: 860, ano_fin: 2021, fecha_inicio: '2019-06-01', fecha_fin: '2021-04-30', capacidades: [{ id_capacidad: 'cap_RUP011_01', codigo_unspsc: 72151000, nombre_actividad: 'Obras viales', codigos_detalle: ['11|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-012', contratante: 'Instituto Nacional de Vías - INVÍAS', celebrado_por: 'Consorcio Ruta Segura', nombre_contratista: 'Consorcio Ruta Segura', participacion_porcentaje: 30, tipo_proyecto: 'Infraestructura', objetivo: 'Rehabilitación de puente y mejoramiento de terraplén para aumentar vida útil estructural.', valor_smmlv: 2650, ano_fin: 2023, fecha_inicio: '2020-05-10', fecha_fin: '2023-02-28', capacidades: [{ id_capacidad: 'cap_RUP012_01', codigo_unspsc: 72151000, nombre_actividad: 'Construcción de puentes', codigos_detalle: ['11|10|15|00','11|10|18|00'], id_documento_soporte: 'RUP-012_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-012_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-013', contratante: 'Empresa de Acueducto y Alcantarillado', celebrado_por: 'Aguas y Soluciones S.A.S.', nombre_contratista: 'Aguas y Soluciones S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Hidrosanitario', objetivo: 'Construcción de planta de tratamiento de aguas residuales con proceso biológico y unidad de desinfección.', valor_smmlv: 1900, ano_fin: 2020, fecha_inicio: '2018-02-01', fecha_fin: '2020-09-30', capacidades: [{ id_capacidad: 'cap_RUP013_01', codigo_unspsc: 30191800, nombre_actividad: 'Plantas de tratamiento', codigos_detalle: ['21|05|20|00'], id_documento_soporte: null, estado_detalle: 'Pendiente' }], id_documento_soporte: null, estado_verificacion: 'Auto-generado'},
+  { id_rup: 'RUP-014', contratante: 'Ministerio de Cultura', celebrado_por: 'Gestión Cultural S.A.S.', nombre_contratista: 'Gestión Cultural S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Rehabilitación patrimonial', objetivo: 'Intervención y restauración de inmueble de valor histórico-cultural para uso público.', valor_smmlv: 430, ano_fin: 2016, fecha_inicio: '2015-06-01', fecha_fin: '2016-11-30', capacidades: [{ id_capacidad: 'cap_RUP014_01', codigo_unspsc: 72144500, nombre_actividad: 'Restauración arquitectónica', codigos_detalle: ['11|12|45|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-015', contratante: 'Secretaría de Salud Departamental', celebrado_por: 'BioCapacitaciones Ltda.', nombre_contratista: 'BioCapacitaciones Ltda.', participacion_porcentaje: 100, tipo_proyecto: 'Capacitación', objetivo: 'Programa de capacitación en gestión de riesgos y manejo de emergencias hospitalarias.', valor_smmlv: 95, ano_fin: 2019, fecha_inicio: '2019-01-10', fecha_fin: '2019-12-20', capacidades: [{ id_capacidad: 'cap_RUP015_01', codigo_unspsc: 86101600, nombre_actividad: 'Capacitación y formación', codigos_detalle: ['86|10|16|00'], id_documento_soporte: 'RUP-015_certificado.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-015_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-016', contratante: 'Corporación Autónoma Regional', celebrado_por: 'Ecosistemas S.A.S.', nombre_contratista: 'Ecosistemas S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Consultoría Ambiental', objetivo: 'Estudios de impacto ambiental y plan de manejo para obras de infraestructura.', valor_smmlv: 140, ano_fin: 2022, fecha_inicio: '2021-05-01', fecha_fin: '2022-09-15', capacidades: [{ id_capacidad: 'cap_RUP016_01', codigo_unspsc: 86101500, nombre_actividad: 'Consultoría ambiental', codigos_detalle: ['86|10|15|00'], id_documento_soporte: null, estado_detalle: 'Pendiente' }], id_documento_soporte: null, estado_verificacion: 'Auto-generado'},
+  { id_rup: 'RUP-017', contratante: 'Empresa Privada - AgroIndustrias S.A.', celebrado_por: 'ServiAgro Ltda.', nombre_contratista: 'ServiAgro Ltda.', participacion_porcentaje: 100, tipo_proyecto: 'Mantenimiento Industrial', objetivo: 'Mantenimiento preventivo y correctivo de plantas productivas y sistemas de control.', valor_smmlv: 380, ano_fin: 2018, fecha_inicio: '2017-02-15', fecha_fin: '2018-12-01', capacidades: [{ id_capacidad: 'cap_RUP017_01', codigo_unspsc: 72161500, nombre_actividad: 'Mantenimiento industrial', codigos_detalle: ['12|16|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-018', contratante: 'Alcaldía de Barranquilla', celebrado_por: 'Consorcio Obras Caribe', nombre_contratista: 'Consorcio Obras Caribe', participacion_porcentaje: 55, tipo_proyecto: 'Infraestructura', objetivo: 'Intervenciones en muelles y trabajos marítimos para garantizar operatividad portuaria.', valor_smmlv: 2100, ano_fin: 2021, fecha_inicio: '2019-03-01', fecha_fin: '2021-08-30', capacidades: [{ id_capacidad: 'cap_RUP018_01', codigo_unspsc: 72153000, nombre_actividad: 'Obras portuarias', codigos_detalle: ['11|15|30|00'], id_documento_soporte: 'RUP-018_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-018_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-019', contratante: 'Ministerio de Educación', celebrado_por: 'EducaSoluciones S.A.S.', nombre_contratista: 'EducaSoluciones S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Software/Educación', objetivo: 'Plataforma de LMS y capacitación a docentes para gestión de contenidos y evaluación.', valor_smmlv: 310, ano_fin: 2020, fecha_inicio: '2019-07-01', fecha_fin: '2020-12-20', capacidades: [{ id_capacidad: 'cap_RUP019_01', codigo_unspsc: 43231500, nombre_actividad: 'Plataformas educativas', codigos_detalle: ['43|23|15|00'], id_documento_soporte: 'RUP-019_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-019_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-020', contratante: 'Empresa de Servicios Públicos - EMS', celebrado_por: 'InfraServicios S.A.S.', nombre_contratista: 'InfraServicios S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Redes de Energía', objetivo: 'Rehabilitación y expansión de redes de distribución eléctrica en zonas rurales.', valor_smmlv: 720, ano_fin: 2023, fecha_inicio: '2021-07-01', fecha_fin: '2023-03-15', capacidades: [{ id_capacidad: 'cap_RUP020_01', codigo_unspsc: 26121600, nombre_actividad: 'Servicios eléctricos', codigos_detalle: ['26|12|16|00'], id_documento_soporte: null, estado_detalle: 'Pendiente' }], id_documento_soporte: null, estado_verificacion: 'Auto-generado'},
+  { id_rup: 'RUP-021', contratante: 'Alcaldía de Manizales', celebrado_por: 'Consorcio Vial Central', nombre_contratista: 'Consorcio Vial Central', participacion_porcentaje: 45, tipo_proyecto: 'Infraestructura', objetivo: 'Construcción de ciclo-rutas y pavimentos permeables para movilidad sostenible.', valor_smmlv: 560, ano_fin: 2019, fecha_inicio: '2018-01-10', fecha_fin: '2019-12-20', capacidades: [{ id_capacidad: 'cap_RUP021_01', codigo_unspsc: 72151500, nombre_actividad: 'Construcción de pavimentos', codigos_detalle: ['11|15|15|00'], id_documento_soporte: 'RUP-021_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-021_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-022', contratante: 'Ministerio de Comercio', celebrado_por: 'Consultoría Mercados S.A.S.', nombre_contratista: 'Consultoría Mercados S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Consultoría', objetivo: 'Estudios de mercado y formulación de políticas para apoyo a microempresas.', valor_smmlv: 85, ano_fin: 2017, fecha_inicio: '2016-04-01', fecha_fin: '2017-10-30', capacidades: [{ id_capacidad: 'cap_RUP022_01', codigo_unspsc: 86101500, nombre_actividad: 'Consultoría de mercados', codigos_detalle: ['86|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-023', contratante: 'Fuerza Pública - Ejército Nacional', celebrado_por: 'Seguridad y Orden S.A.S.', nombre_contratista: 'Seguridad y Orden S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Mantenimiento', objetivo: 'Intervenciones en infraestructura logística y mejora de hangares.', valor_smmlv: 410, ano_fin: 2018, fecha_inicio: '2017-06-15', fecha_fin: '2018-12-10', capacidades: [{ id_capacidad: 'cap_RUP023_01', codigo_unspsc: 72154000, nombre_actividad: 'Mantenimiento de pistas y hangares', codigos_detalle: ['11|15|40|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-024', contratante: 'Empresa de Transporte Urbano', celebrado_por: 'Movilidad Sostenible S.A.S.', nombre_contratista: 'Movilidad Sostenible S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Software', objetivo: 'Desarrollo de sistema de gestión de flotas y telemetría para optimización de rutas.', valor_smmlv: 270, ano_fin: 2022, fecha_inicio: '2021-02-01', fecha_fin: '2022-10-01', capacidades: [{ id_capacidad: 'cap_RUP024_01', codigo_unspsc: 43231700, nombre_actividad: 'Sistemas de gestión de flotas', codigos_detalle: ['43|23|17|00'], id_documento_soporte: 'RUP-024_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-024_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-025', contratante: 'Secretaría de Cultura Municipal', celebrado_por: 'Arte & Patrimonio Ltda.', nombre_contratista: 'Arte & Patrimonio Ltda.', participacion_porcentaje: 100, tipo_proyecto: 'Cultural', objetivo: 'Programas de intervención artística y adecuación de espacios culturales comunitarios.', valor_smmlv: 75, ano_fin: 2016, fecha_inicio: '2015-03-01', fecha_fin: '2016-09-30', capacidades: [{ id_capacidad: 'cap_RUP025_01', codigo_unspsc: 86101800, nombre_actividad: 'Servicios culturales y artísticos', codigos_detalle: ['86|10|18|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-026', contratante: 'Empresa Minera Nacional', celebrado_por: 'MinaSoluciones S.A.S.', nombre_contratista: 'MinaSoluciones S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Mantenimiento Minero', objetivo: 'Mantenimiento de chancadores y sistemas de transporte en planta de beneficio.', valor_smmlv: 660, ano_fin: 2020, fecha_inicio: '2018-08-01', fecha_fin: '2020-06-30', capacidades: [{ id_capacidad: 'cap_RUP026_01', codigo_unspsc: 72161500, nombre_actividad: 'Mantenimiento y montaje industrial', codigos_detalle: ['12|16|15|00'], id_documento_soporte: null, estado_detalle: 'Pendiente' }], id_documento_soporte: null, estado_verificacion: 'Auto-generado'},
+  { id_rup: 'RUP-027', contratante: 'Hospital Regional', celebrado_por: 'InfraSalud S.A.S.', nombre_contratista: 'InfraSalud S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Obras Hospitalarias', objetivo: 'Ampliación de áreas de atención y modernización de redes críticas hospitalarias.', valor_smmlv: 1250, ano_fin: 2021, fecha_inicio: '2019-10-01', fecha_fin: '2021-12-31', capacidades: [{ id_capacidad: 'cap_RUP027_01', codigo_unspsc: 72151000, nombre_actividad: 'Construcción de edificios hospitalarios', codigos_detalle: ['11|10|15|00'], id_documento_soporte: 'RUP-027_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-027_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-028', contratante: 'Universidad Tecnológica', celebrado_por: 'Laboratorios y Sistemas S.A.S.', nombre_contratista: 'Laboratorios y Sistemas S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Equipamiento', objetivo: 'Suministro e instalación de equipos de laboratorio para investigación académica.', valor_smmlv: 310, ano_fin: 2018, fecha_inicio: '2017-04-15', fecha_fin: '2018-12-10', capacidades: [{ id_capacidad: 'cap_RUP028_01', codigo_unspsc: 56101500, nombre_actividad: 'Suministro de equipos de laboratorio', codigos_detalle: ['56|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-029', contratante: 'Empresa Portuaria', celebrado_por: 'Puerto y Logística S.A.S.', nombre_contratista: 'Puerto y Logística S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Logística', objetivo: 'Optimización de procesos logísticos en terminal portuaria, incluida señalización y sistemas de control.', valor_smmlv: 1450, ano_fin: 2022, fecha_inicio: '2020-09-01', fecha_fin: '2022-05-31', capacidades: [{ id_capacidad: 'cap_RUP029_01', codigo_unspsc: 56102500, nombre_actividad: 'Sistemas logísticos', codigos_detalle: ['56|10|25|00'], id_documento_soporte: 'RUP-029_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-029_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-030', contratante: 'Agencia Nacional de Infraestructura', celebrado_por: 'Consorcio Vial Norte', nombre_contratista: 'Consorcio Vial Norte', participacion_porcentaje: 35, tipo_proyecto: 'Infraestructura', objetivo: 'Intervención integral en corredor estratégico con diseño geotécnico avanzado para estabilización de taludes.', valor_smmlv: 5000, ano_fin: 2025, fecha_inicio: '2022-03-01', fecha_fin: '2025-09-30', capacidades: [{ id_capacidad: 'cap_RUP030_01', codigo_unspsc: 72151000, nombre_actividad: 'Estabilización de taludes y obras complementarias', codigos_detalle: ['11|10|15|00','11|10|19|00'], id_documento_soporte: 'RUP-030_soporte.pdf', estado_detalle: 'En Proceso' }], id_documento_soporte: 'RUP-030_contrato.pdf', estado_verificacion: 'Pendiente Revisión'},
+  { id_rup: 'RUP-031', contratante: 'Ministerio de Vivienda', celebrado_por: 'Vivienda Social S.A.S.', nombre_contratista: 'Vivienda Social S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Vivienda', objetivo: 'Construcción de vivienda de interés social con especificaciones térmicas y de eficiencia energética.', valor_smmlv: 2100, ano_fin: 2020, fecha_inicio: '2018-01-10', fecha_fin: '2020-12-20', capacidades: [{ id_capacidad: 'cap_RUP031_01', codigo_unspsc: 72151000, nombre_actividad: 'Construcción de vivienda', codigos_detalle: ['11|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-032', contratante: 'Secretaría de Movilidad', celebrado_por: 'Gestión Traffic S.A.S.', nombre_contratista: 'Gestión Traffic S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Consultoría Movilidad', objetivo: 'Diseño y modelación de flujo vehicular para implementación de zona de baja velocidad en corredores céntricos.', valor_smmlv: 140, ano_fin: 2019, fecha_inicio: '2018-03-01', fecha_fin: '2019-11-15', capacidades: [{ id_capacidad: 'cap_RUP032_01', codigo_unspsc: 86101500, nombre_actividad: 'Consultoría técnica', codigos_detalle: ['86|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-033', contratante: 'Ministerio de Agricultura', celebrado_por: 'AgroInnovación S.A.S.', nombre_contratista: 'AgroInnovación S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Capacitación', objetivo: 'Programa de transferencia tecnológica para productores rurales en manejo de cultivos de alto valor.', valor_smmlv: 60, ano_fin: 2017, fecha_inicio: '2017-01-10', fecha_fin: '2017-12-20', capacidades: [{ id_capacidad: 'cap_RUP033_01', codigo_unspsc: 86101600, nombre_actividad: 'Programas de transferencia tecnológica', codigos_detalle: ['86|10|16|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-034', contratante: 'Empresa de Energía', celebrado_por: 'Redes y Potencia S.A.S.', nombre_contratista: 'Redes y Potencia S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Energía', objetivo: 'Instalación de subestación y modernización de tableros de control para mejorar confiabilidad.', valor_smmlv: 980, ano_fin: 2021, fecha_inicio: '2019-11-01', fecha_fin: '2021-10-30', capacidades: [{ id_capacidad: 'cap_RUP034_01', codigo_unspsc: 26121600, nombre_actividad: 'Instalaciones eléctricas', codigos_detalle: ['26|12|16|00'], id_documento_soporte: 'RUP-034_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-034_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-035', contratante: 'Corporación del Acueducto', celebrado_por: 'Hidro & Agua S.A.S.', nombre_contratista: 'Hidro & Agua S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Hidrosanitario', objetivo: 'Ampliación de redes de acueducto y construcción de tanques de almacenamiento para suministro continuo.', valor_smmlv: 1450, ano_fin: 2020, fecha_inicio: '2018-06-01', fecha_fin: '2020-08-31', capacidades: [{ id_capacidad: 'cap_RUP035_01', codigo_unspsc: 30191800, nombre_actividad: 'Sistemas de acueducto', codigos_detalle: ['21|05|10|00'], id_documento_soporte: null, estado_detalle: 'Pendiente' }], id_documento_soporte: null, estado_verificacion: 'Auto-generado'},
+  { id_rup: 'RUP-036', contratante: 'Alcaldía de Tunja', celebrado_por: 'Construcciones Andinas Ltda.', nombre_contratista: 'Construcciones Andinas Ltda.', participacion_porcentaje: 100, tipo_proyecto: 'Restauración', objetivo: 'Restauración de infraestructura municipal e implementación de sistemas de gestión del riesgo.', valor_smmlv: 260, ano_fin: 2016, fecha_inicio: '2015-02-01', fecha_fin: '2016-12-15', capacidades: [{ id_capacidad: 'cap_RUP036_01', codigo_unspsc: 72144500, nombre_actividad: 'Restauración de infraestructura', codigos_detalle: ['11|12|45|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-037', contratante: 'Ministerio de Defensa', celebrado_por: 'Seguridad Nacional S.A.S.', nombre_contratista: 'Seguridad Nacional S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Obras y Seguridad', objetivo: 'Implementación de medidas de seguridad física y obras civiles en instalaciones estratégicas.', valor_smmlv: 890, ano_fin: 2019, fecha_inicio: '2018-07-01', fecha_fin: '2019-12-31', capacidades: [{ id_capacidad: 'cap_RUP037_01', codigo_unspsc: 72154000, nombre_actividad: 'Obras de seguridad', codigos_detalle: ['11|15|40|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-038', contratante: 'Empresa de Telecomunicaciones', celebrado_por: 'RedesConexión S.A.S.', nombre_contratista: 'RedesConexión S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Telecom', objetivo: 'Despliegue de infraestructura de fibra óptica para conectividad de banda ancha en zonas rurales.', valor_smmlv: 640, ano_fin: 2022, fecha_inicio: '2020-02-01', fecha_fin: '2022-07-31', capacidades: [{ id_capacidad: 'cap_RUP038_01', codigo_unspsc: 26111700, nombre_actividad: 'Instalación de redes de comunicación', codigos_detalle: ['26|11|17|00'], id_documento_soporte: 'RUP-038_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-038_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-039', contratante: 'Operador de Transporte', celebrado_por: 'TransInfra S.A.S.', nombre_contratista: 'TransInfra S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Mantenimiento', objetivo: 'Mantenimiento preventivo y reposición de pavimentos en rutas urbanas principales.', valor_smmlv: 340, ano_fin: 2018, fecha_inicio: '2017-03-01', fecha_fin: '2018-11-30', capacidades: [{ id_capacidad: 'cap_RUP039_01', codigo_unspsc: 72151500, nombre_actividad: 'Mantenimiento de pavimentos', codigos_detalle: ['11|15|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-040', contratante: 'Ministerio de Ciencia', celebrado_por: 'Innovación y Desarrollo S.A.S.', nombre_contratista: 'Innovación y Desarrollo S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'I+D', objetivo: 'Proyecto de investigación aplicada en materiales de construcción sostenibles.', valor_smmlv: 160, ano_fin: 2020, fecha_inicio: '2019-01-15', fecha_fin: '2020-12-15', capacidades: [{ id_capacidad: 'cap_RUP040_01', codigo_unspsc: 81101500, nombre_actividad: 'Investigación y desarrollo', codigos_detalle: ['81|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-041', contratante: 'Gobernación del Valle', celebrado_por: 'Consorcio Salud Valle', nombre_contratista: 'Consorcio Salud Valle', participacion_porcentaje: 50, tipo_proyecto: 'Salud Pública', objetivo: 'Implementación de unidad móvil de atención primaria y campañas de vacunación en zonas rurales.', valor_smmlv: 290, ano_fin: 2017, fecha_inicio: '2016-05-01', fecha_fin: '2017-12-20', capacidades: [{ id_capacidad: 'cap_RUP041_01', codigo_unspsc: 86101600, nombre_actividad: 'Servicios de salud móvil', codigos_detalle: ['86|10|16|00'], id_documento_soporte: 'RUP-041_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-041_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-042', contratante: 'Ministerio de Ambiente', celebrado_por: 'Gestión Verde S.A.S.', nombre_contratista: 'Gestión Verde S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Reforestación', objetivo: 'Programa de reforestación y protección de cuencas hidrográficas con indicadores de seguimiento técnico.', valor_smmlv: 130, ano_fin: 2018, fecha_inicio: '2017-02-01', fecha_fin: '2018-11-30', capacidades: [{ id_capacidad: 'cap_RUP042_01', codigo_unspsc: 86101500, nombre_actividad: 'Programas de reforestación', codigos_detalle: ['86|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-043', contratante: 'Alcaldía de Ibagué', celebrado_por: 'InfraIbagué S.A.S.', nombre_contratista: 'InfraIbagué S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Obras Públicas', objetivo: 'Construcción de ciclo-infraestructura y corredores peatonales con criterios de inclusión.', valor_smmlv: 470, ano_fin: 2019, fecha_inicio: '2018-03-01', fecha_fin: '2019-10-31', capacidades: [{ id_capacidad: 'cap_RUP043_01', codigo_unspsc: 72151500, nombre_actividad: 'Obras peatonales', codigos_detalle: ['11|15|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-044', contratante: 'Ministerio de Transporte', celebrado_por: 'Consorcio Puentes del Norte', nombre_contratista: 'Consorcio Puentes del Norte', participacion_porcentaje: 40, tipo_proyecto: 'Infraestructura', objetivo: 'Diseño y construcción de puente vehicular con criterios sísmicos y optimización estructural.', valor_smmlv: 3750, ano_fin: 2024, fecha_inicio: '2021-05-01', fecha_fin: '2024-03-31', capacidades: [{ id_capacidad: 'cap_RUP044_01', codigo_unspsc: 72151000, nombre_actividad: 'Diseño y construcción de puentes', codigos_detalle: ['11|10|15|00','11|10|17|00'], id_documento_soporte: 'RUP-044_soporte.pdf', estado_detalle: 'En Proceso' }], id_documento_soporte: 'RUP-044_contrato.pdf', estado_verificacion: 'Pendiente Revisión'},
+  { id_rup: 'RUP-045', contratante: 'Agencia de Desarrollo Rural', celebrado_por: 'AgroDesarrollo S.A.S.', nombre_contratista: 'AgroDesarrollo S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Agrícola', objetivo: 'Programas de riego tecnificado y acompañamiento productivo para comunidades rurales.', valor_smmlv: 220, ano_fin: 2020, fecha_inicio: '2019-02-01', fecha_fin: '2020-12-15', capacidades: [{ id_capacidad: 'cap_RUP045_01', codigo_unspsc: 86101700, nombre_actividad: 'Asesoría agrícola', codigos_detalle: ['86|10|17|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-046', contratante: 'Instituto Nacional de Tránsito', celebrado_por: 'Seguridad Vial Ltda.', nombre_contratista: 'Seguridad Vial Ltda.', participacion_porcentaje: 100, tipo_proyecto: 'Capacitación', objetivo: 'Capacitación a conductores y funcionarios en protocolos de seguridad vial y gestión de flotas.', valor_smmlv: 55, ano_fin: 2016, fecha_inicio: '2016-01-10', fecha_fin: '2016-12-20', capacidades: [{ id_capacidad: 'cap_RUP046_01', codigo_unspsc: 86101600, nombre_actividad: 'Capacitación y formación', codigos_detalle: ['86|10|16|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-047', contratante: 'Gobernación de Cundinamarca', celebrado_por: 'InfraCundi S.A.S.', nombre_contratista: 'InfraCundi S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Infraestructura', objetivo: 'Mejoramiento de drenajes urbanos y construcción de obras de mitigación de riesgo.', valor_smmlv: 980, ano_fin: 2021, fecha_inicio: '2019-05-01', fecha_fin: '2021-09-30', capacidades: [{ id_capacidad: 'cap_RUP047_01', codigo_unspsc: 72151500, nombre_actividad: 'Obras de drenaje', codigos_detalle: ['11|15|15|00'], id_documento_soporte: 'RUP-047_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-047_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-048', contratante: 'Empresa de Transporte Intermunicipal', celebrado_por: 'TransBogotá S.A.S.', nombre_contratista: 'TransBogotá S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Software', objetivo: 'Plataforma de venta y control de pasajes con integración a medios de pago y telemetría.', valor_smmlv: 360, ano_fin: 2022, fecha_inicio: '2021-06-01', fecha_fin: '2022-12-01', capacidades: [{ id_capacidad: 'cap_RUP048_01', codigo_unspsc: 43231500, nombre_actividad: 'Desarrollo de aplicaciones', codigos_detalle: ['43|23|15|00'], id_documento_soporte: 'RUP-048_soporte.pdf', estado_detalle: 'Completo y Verificado' }], id_documento_soporte: 'RUP-048_contrato.pdf', estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-049', contratante: 'Servicio Nacional de Aprendizaje - SENA', celebrado_por: 'Formación y Talento S.A.S.', nombre_contratista: 'Formación y Talento S.A.S.', participacion_porcentaje: 100, tipo_proyecto: 'Capacitación', objetivo: 'Programas de formación técnico-profesional para jóvenes del sector construcción.', valor_smmlv: 120, ano_fin: 2019, fecha_inicio: '2018-04-01', fecha_fin: '2019-11-30', capacidades: [{ id_capacidad: 'cap_RUP049_01', codigo_unspsc: 86101600, nombre_actividad: 'Capacitación técnica', codigos_detalle: ['86|10|16|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'},
+  { id_rup: 'RUP-050', contratante: 'Ministerio de Comercio', celebrado_por: 'Desarrollo PYME Ltda.', nombre_contratista: 'Desarrollo PYME Ltda.', participacion_porcentaje: 100, tipo_proyecto: 'Consultoría', objetivo: 'Asesoría integral para internacionalización de pymes con diagnóstico, plan de acción y acompañamiento.', valor_smmlv: 130, ano_fin: 2018, fecha_inicio: '2017-05-01', fecha_fin: '2018-12-01', capacidades: [{ id_capacidad: 'cap_RUP050_01', codigo_unspsc: 86101500, nombre_actividad: 'Consultoría estratégica', codigos_detalle: ['86|10|15|00'], id_documento_soporte: null, estado_detalle: 'Completo y Verificado' }], id_documento_soporte: null, estado_verificacion: 'Verificado'}
 ];
 
 // Nota: las capacidades (UNSPSC) se han movido dentro de cada experiencia en `mockExperiencias`.
@@ -333,7 +502,11 @@ function TablaExperiencias({ experiencias, onEdit }) {
           <div className="flex items-center justify-center space-x-2">
             <button
               onClick={() => toggleExpanded(info.row.original.id_rup)}
-              className="p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition flex items-center justify-center"
+              className={`p-2 rounded-lg transition-all flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-purple-300 ${
+                expandedIds[info.row.original.id_rup]
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'bg-white border border-gray-200 text-gray-700 hover:bg-purple-50'
+              }`}
               title={expandedIds[info.row.original.id_rup] ? 'Ocultar códigos UNSPSC' : 'Ver códigos UNSPSC'}
             >
               <ChevronDown className={`w-4 h-4 transform transition-transform ${expandedIds[info.row.original.id_rup] ? 'rotate-180' : ''}`} />
@@ -634,6 +807,13 @@ export default function ResumenPage() {
   const handleContinue = () => {
     setLoading(true);
     setTimeout(() => {
+      try {
+        // Guardar las experiencias en sessionStorage para que la página de Certificaciones las consuma
+        sessionStorage.setItem('onboarding_experiencias', JSON.stringify(experienciasData));
+      } catch (e) {
+        // Si falla el almacenamiento, continuar sin persistencia
+        console.warn('No se pudo guardar experiencias en sessionStorage', e);
+      }
       window.location.href = '/onboarding/certificaciones';
     }, 700);
   };

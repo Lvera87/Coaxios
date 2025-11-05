@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowRight, Upload, CheckCircle, FileText, Award, X, Trash2, Sparkles, Loader2 } from 'lucide-react';
 import ProgressBar from '../../components/onboarding/ProgressBar';
 import FileUploadCard from '../../components/onboarding/FileUploadCard';
@@ -63,6 +63,53 @@ const mockExperienciasConCertificaciones = [
     estado_certificacion: 'Pendiente',
   },
 ];
+
+// Intenta cargar experiencias desde sessionStorage (serializadas por ResumenPage)
+function loadExperienciasFromSession() {
+  try {
+    const raw = sessionStorage.getItem('onboarding_experiencias');
+    if (!raw) return null;
+    const exps = JSON.parse(raw);
+    if (!Array.isArray(exps)) return null;
+
+    const COP_PER_SMMLV = 1160000; // aproximación para convertir SMMLV a COP
+
+    return exps.map((e, idx) => {
+      const id = e.id_experiencia || e.id_rup || `exp_ext_${idx + 1}`;
+      const nombre = e.nombre_proyecto || e.nombre_contratista || `${e.tipo_proyecto || 'Proyecto'} - ${id}`;
+      const entidad = e.entidad_contratante || e.contratante || e.celebrado_por || '—';
+      const valor_final_cop = e.valor_final_cop || (typeof e.valor_smmlv === 'number' ? Math.round(e.valor_smmlv * COP_PER_SMMLV) : null);
+      const fecha_inicio = e.fecha_inicio || e.start_date || null;
+      const fecha_fin = e.fecha_fin || e.end_date || null;
+      const ano_ejecucion_fin = e.ano_fin || e.ano_ejecucion_fin || (fecha_fin ? new Date(fecha_fin).getFullYear() : null);
+
+      // Extraer codigos UNSPSC y descripciones desde capacidades si existen
+      let codigos_unspsc = [];
+      let descripcion_codigos = [];
+      if (Array.isArray(e.capacidades) && e.capacidades.length > 0) {
+        codigos_unspsc = e.capacidades.map(c => Number(c.codigo_unspsc)).filter(Boolean);
+        descripcion_codigos = e.capacidades.map(c => c.nombre_actividad || '').filter(Boolean);
+      }
+
+      return {
+        id_experiencia: id,
+        nombre_proyecto: nombre,
+        entidad_contratante: entidad,
+        valor_final_cop,
+        ano_ejecucion_fin,
+        fecha_inicio,
+        fecha_fin,
+        codigos_unspsc,
+        descripcion_codigos,
+        certificaciones: e.certificaciones || [],
+        estado_certificacion: (e.certificaciones && e.certificaciones.length > 0) ? 'Certificado' : 'Pendiente',
+      };
+    });
+  } catch (err) {
+    console.warn('No se pudo leer experiencias desde sessionStorage', err);
+    return null;
+  }
+}
 
 // Modal para agregar certificación
 function ModalAgregarCertificacion({ isOpen, experienciaId, onUpload, onClose }) {
@@ -281,7 +328,26 @@ function FilaExperiencia({ experiencia, onAgregarCertificacion, onEliminarCertif
 }
 
 export default function CertificacionesPage() {
-  const [experiencias, setExperiencias] = useState(mockExperienciasConCertificaciones);
+  // Cargar primero desde sessionStorage (si la página anterior guardó datos),
+  // si no, usar los mocks locales
+  const [experiencias, setExperiencias] = useState(() => {
+    const fromSession = loadExperienciasFromSession();
+    return fromSession && fromSession.length > 0 ? fromSession : mockExperienciasConCertificaciones;
+  });
+  // Debug: log origen y muestra de experiencias para verificar sessionStorage en dev
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('onboarding_experiencias');
+      if (raw) {
+        console.log('[CertificacionesPage] cargadas experiencias desde sessionStorage. total=', experiencias.length);
+      } else {
+        console.log('[CertificacionesPage] sin sessionStorage, usando mocks. total=', experiencias.length);
+      }
+      console.log('[CertificacionesPage] preview 3 experiencias:', experiencias.slice(0, 3));
+    } catch (err) {
+      console.error('[CertificacionesPage] error leyendo sessionStorage', err);
+    }
+  }, [experiencias]);
   const [loading, setLoading] = useState(false);
   const [modalState, setModalState] = useState({ isOpen: false, experienciaId: null });
 
